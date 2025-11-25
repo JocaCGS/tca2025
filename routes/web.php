@@ -1,26 +1,12 @@
 <?php
 
-// use App\Http\Controllers\ProfileController;
-// use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UploadController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,28 +14,27 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/home', function () {
+    return view('home');
+})->middleware('auth')->name('home');
+
+Route::get('/upload', function () {
+    return view('upload');
+})->middleware('auth')->name('upload');
+
+Route::post('/upload', [UploadController::class, 'store'])
+    ->middleware('auth')
+    ->name('upload.store');
+
+Route::get('/home', [UploadController::class, 'index'])
+    ->middleware('auth')
+    ->name('home');
+
+
+
+
 require __DIR__.'/auth.php';
 
-
-// <?php
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MainController;
-use App\Http\Controllers\AlunoController;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/principal', [MainController::class, 'index']);
-
-
-
-Route::resource('/aluno', AlunoController::class);
-
-Route::get('/home', function (){
-    return view('home');
-})->name('home')->middleware(['auth', 'verified']);;
-
-Route::get('/report/aluno', [AlunoController::class, 'report'])
-->name('report.aluno')->middleware(['auth', 'verified']);;
+//Route::get('/dashboard', function () {
+  //  return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');

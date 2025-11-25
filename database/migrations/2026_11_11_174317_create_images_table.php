@@ -11,26 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alunos', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->integer('ano');
-
-
-            $table->string('foto')->nullable();
-            $table->unsignedBigInteger('curso_id');
-            $table->foreign('curso_id')
-            ->references('id')->on('cursos');
-            $table->softDeletes();
+            $table->string('title');
+            $table->string('tag')->nullable();
+            $table->string('image'); // caminho da imagem no storage/public
+            $table->unsignedBigInteger('user_id'); 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
-    }
+    }   
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('alunos');
+        Schema::dropIfExists('images');
     }
 };

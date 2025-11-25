@@ -3,6 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+use App\Models\Image;
+
+Route::get('/images', function () {
+    return Image::all()->map(function ($img) {
+        return asset('storage/' . $img->image);  // Return full URL
+    });
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes

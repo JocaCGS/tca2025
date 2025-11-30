@@ -14,12 +14,11 @@
       <span>Logo</span>
 
       <!-- Search box -->
-      <!-- <form method="GET" action="{{ route('upload.search') }}">
-          <input type="text" name="search" placeholder="Search for" />
-          <button type="submit">search</button>
-      </form> -->
+      <form method="GET" action="{{ route('upload.search') }}">
+            <input type="text" name="search" placeholder="Search for...">
+            <button type="submit">Search</button>
+      </form>
 
-</form>
 
 
       <!-- Title dropdown -->
@@ -27,7 +26,7 @@
       <!-- Upload button -->
       <a id="uploadBtn" href="{{ route('upload') }}">Upload</a>
 
-      <a id="seeImages" href="{{ route('userimages') }}">See your uploaded images</a>
+      <a id="seeImages" href="{{ route('userimages') }}">See uploaded images</a>
 
 
       <form method="POST" action="{{ route('logout') }}">
@@ -63,15 +62,19 @@
       <table id="imagesTable" role="grid" cellspacing="8" cellpadding="8" border="1" style="width:100%;">
         <tbody>
             @foreach($images as $img)
-              <a href="{{ route('image.show', $img->id) }}">
-                  <img src="{{ $img->image }}" 
-                      style="width: 200px; height: auto; margin: 10px;"
-                      data-title="{{ $img->title }}"
-                      data-tag="{{ $img->tag }}">
-              </a>
-          @endforeach
-
+                <tr>
+                    <td>
+                        <a href="{{ route('image.show', $img->id) }}">
+                            <img src="{{ $img->image }}"
+                                style="width: 200px; height: auto; margin: 10px;"
+                                data-title="{{ $img->title }}"
+                                data-tag="{{ $img->tag }}">
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
+
         </table>
 
 

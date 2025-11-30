@@ -30,6 +30,35 @@ Route::get('/home', [UploadController::class, 'index'])
     ->middleware('auth')
     ->name('home');
 
+Route::get('/image/{id}', [UploadController::class, 'show'])->name('image.show');
+
+Route::get('userimages', [UploadController::class, 'userImages'])
+    ->middleware('auth')
+    ->name('userimages');
+
+Route::delete('/image/{id}', [UploadController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('upload.destroy');
+
+Route::get('/imageedit/{id}', [UploadController::class, 'edit'])
+    ->middleware('auth')
+    ->name('imageedit');
+
+
+Route::post('/update/{id}', [UploadController::class, 'update'])
+    ->middleware('auth')
+->name('upload.update');  
+
+Route::get('/search', [UploadController::class, 'search'])
+    ->middleware('auth')
+    ->name('upload.search');
+
+Route::get('makepdf/{id}', [UploadController::class, 'makepdf'])
+    ->middleware('auth')
+    ->name('upload.makepdf');
+
+
+
 
 
 

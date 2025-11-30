@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Your ideas start here</title>
+  <title>Your uploaded images</title>
   <!-- No CSS as requested -->
 </head>
 <body>
@@ -14,21 +14,17 @@
       <span>Logo</span>
 
       <!-- Search box -->
-      <!-- <form method="GET" action="{{ route('upload.search') }}">
-          <input type="text" name="search" placeholder="Search for" />
-          <button type="submit">search</button>
-      </form> -->
-
-</form>
-
-
-      <!-- Title dropdown -->
+      <!-- <label for="q" style="margin-left:20px;">🔍</label>
+      <input id="q" name="q" placeholder="Search for" /> -->
 
       <!-- Upload button -->
       <a id="uploadBtn" href="{{ route('upload') }}">Upload</a>
 
-      <a id="seeImages" href="{{ route('userimages') }}">See your uploaded images</a>
+      <a href="{{ route('home') }}">Go gome</a>
 
+
+
+    
 
       <form method="POST" action="{{ route('logout') }}">
           @csrf
@@ -40,7 +36,7 @@
 
   <!-- Main page title -->
   <main>
-    <h1 style="text-align:center;">Your ideas start here</h1>
+    <h1 style="text-align:center;">Your Uploads</h1>
 
     <!-- Big container that visually groups the image area (no CSS, so simple fieldset) -->
     <fieldset>
@@ -57,22 +53,50 @@
 
         <button id="refresh">Refresh</button>
       </div>
-
-      <!-- The Pinterest-like grid implemented as a table -->
-      <!-- Using a table so layout is predictable without CSS. Each cell contains a single image -->
-      <table id="imagesTable" role="grid" cellspacing="8" cellpadding="8" border="1" style="width:100%;">
+    
+    <table>
         <tbody>
-            @foreach($images as $img)
-              <a href="{{ route('image.show', $img->id) }}">
-                  <img src="{{ $img->image }}" 
-                      style="width: 200px; height: auto; margin: 10px;"
-                      data-title="{{ $img->title }}"
-                      data-tag="{{ $img->tag }}">
-              </a>
-          @endforeach
+                @foreach($images as $img)
+                    <tr>
+                        <td>Title: {{ $img->title}}</td>
+                        <td>-</td>
+                        <td>Tag: {{ $img->tag}}</td>
+                        <td>-</td>
+                        <td>Image: </td>
+                        <td>
+                            <a href="{{ route('image.show', $img->id) }}">
+                                <img src="{{ $img->image }}" style="width:120px; height:auto; display:block; margin:auto;">
+                            </a>
+                        </td>
+                        <td>-</td>
+                        @can('update', $img)
+                            <td><a href="{{ route('imageedit', $img->id) }}">edit</a></td>
+                            <td>-</td>
+                        @endcan
+                        @can('delete', $img)
+                            <td>
+                                <a href="javascript:void(0);" onclick="removeImage({{ $img->id }})" style="cursor:pointer;">
+                                    delete
+                                </a>
+                            </td>
+                        @endcan
+                        <form id="remove-form-{{ $img->id }}"
+                            action="{{ route('upload.destroy', $img->id) }}"
+                            method="POST" style="display:none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
 
-        </tbody>
-        </table>
+                        <td>
+                            <a href="{{ route('upload.makepdf', $img->id) }}">
+                                make pdf out of it
+                            </a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+    </table>
+
 
 
       <!-- Static fallback images for demo (will be overwritten when JS runs) -->
@@ -91,6 +115,12 @@
 
   <!-- Simple script to populate the table from an API or from demo data -->
   <script>
+function removeImage(id) {
+    document.getElementById('remove-form-' + id).submit();
+}
+
+
+
 (function () {
 
   var table = document.getElementById('imagesTable').getElementsByTagName('tbody')[0];

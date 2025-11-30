@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Relatório de Imagens - Sistema Aula</title>
+    <title>Relatório de Imagens - Sistema Imagens</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
